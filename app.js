@@ -14,12 +14,7 @@ let items = [
 // Route route (already done)
 
 app.get('/', (req, res) => {
-  res.send('Welcome to the Simple Items API!');
-});
-
-// GET all items 
-app.get('/items', (req, res) => {
-  res.json(items); //items are sent as JSON response
+  res.send('Hello World!, first practice'); //send response
 });
 
 // Get a single item by ID
