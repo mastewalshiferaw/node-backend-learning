@@ -50,31 +50,16 @@ app.listen(port, () => {
 
 // PUT a specific item by ID (Update an item)
 app.put('/items/:id', (req, res) => {
-  const id = parseInt(req.params.id); // Get ID from URL
-  const updatedItemData = req.body; // Get updated data from request body
+  const id = parseInt(req.params.id);
+  const updatedItemData = req.body; // Data to update with
 
-  // Basic validation: ensure updated data has a name
-  if (!updatedItemData || !updatedItemData.name) {
-    return res.status(400).send('Item name is required for update');
-  }
+  const itemIndex = items.findIndex(item => item.id === id); // Find the index of the item
 
-  let itemFound = false;
-  items = items.map(item => {
-    if (item.id === id) {
-      itemFound = true;
-      // Merge existing item with updated data.
-      // The spread operator `...` copies properties from one object to another.
-      // `item` are existing properties, `updatedItemData` are new/overwriting properties.
-      return { ...item, ...updatedItemData, id: item.id }; // Ensure ID isn't changed if sent in body
-    }
-    return item;
-  });
-
-  if (itemFound) {
-    // Find the updated item to send it back in the response
-    const updatedItem = items.find(item => item.id === id);
-    res.json(updatedItem); // Send the updated item with a 200 OK status
+  if (itemIndex > -1) { // If item is found (findIndex returns -1 if not found)
+    // Merge existing item with updated data
+    items[itemIndex] = { ...items[itemIndex], ...updatedItemData, id: id };
+    res.json(items[itemIndex]);
   } else {
-    res.status(404).send('Item not found'); // If item not found, send 404
+    res.status(404).send('Item not found');
   }
 });
