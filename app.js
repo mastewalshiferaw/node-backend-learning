@@ -17,6 +17,10 @@ app.get('/', (req, res) => {
   res.send('Hello World!, first practice'); //send response
 });
 
+app.get('/items', (req, res) => {
+  res.json(items);
+});
+
 // Get a single item by ID
 app.get('/items/:id', (req, res) => {
   const id = parseInt(req.params.id); //id is extracted from URL and converted to integer
